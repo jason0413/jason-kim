@@ -1,0 +1,213 @@
+<html>
+<head>
+<meta http-equiv="Content-type" name="viewport" content="width=device-width, initial-scale=1.0, text/html, charset=utf8">
+<style>
+
+.header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 100%;
+}
+.search {
+    width: 100%;
+    text-align: center;
+}
+
+.appBackground {
+    position: relative;
+    background-image: url("dust.jpg");
+    background-repeat:no-repeat;
+    background-size:100% 100vh;
+}
+.h1 {
+   color: yellow;
+   text-align: center;
+}
+
+.h2{
+	color: blue;
+	font-weight: bold;
+	text-align: center;
+	padding: 2px;
+}
+
+
+</style>
+
+<script>
+function showAirpollution(str, id) {
+  if (str=="") {
+    document.getElementById(id).innerHTML="";
+    return;
+  }
+  if (window.XMLHttpRequest) {
+    // code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  } else { // code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function() {
+    if (this.readyState==4 && this.status==200) {
+      document.getElementById(id).innerHTML=this.responseText;
+    }
+  }
+ // alert(str);
+  xmlhttp.open("GET","cgi-bin/whisen.php?q="+str,true);
+  xmlhttp.send();
+}
+
+function compare(id){
+//#alert("gere");
+
+    var temp1 = document.getElementById("compElement1");
+	var val1 = temp1.options[temp1.selectedIndex].value;
+    var temp2 = document.getElementById("compElement2");
+	var val2 = temp2.options[temp2.selectedIndex].value;
+ if (window.XMLHttpRequest) {
+    // code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  } else { // code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function() {
+    if (this.readyState==4 && this.status==200) {
+      document.getElementById(id).innerHTML=this.responseText;
+    }
+  }
+  xmlhttp.open("GET","cgi-bin/compare.php?q="+val1+"&r="+val2,true);
+  xmlhttp.send();
+}
+
+</script>
+
+</head>
+
+<body class="appBackground" onload="showAirpollution('min','min');showAirpollution('max','max')">
+
+<h2 class = "h1">"오늘 미세먼지가 어때?"</h2>
+
+<div style="background-color: #93FFE8;">
+<form method = "POST" action="http://cspro.sogang.ac.kr/~cse20121576/cgi-bin/whisen.php" style = "background-color: #93FFE8;" class = "search">
+  <h4 class = "h2">지역 검색</h4>
+  <select name="places" id = "listPlaces" onchange="showAirpollution(this.value,'txtHint')">
+	<option value = "지역">지역</option>
+	<option value = "강남구">강남구</option>
+	<option value = "강변북로">강변북로</option>
+	<option value = "강북구">강북구</option>
+	<option value = "관악구">관악구</option>
+	<option value = "내부순환로">내부순환로</option>
+	<option value = "도봉구">도봉구</option>
+	<option value = "동대문구">동대문구</option>
+	<option value = "동작구">동작구</option>
+	<option value = "동작대로">동작대로</option>
+	<option value = "마포구">마포구</option>
+	<option value = "서울역">서울역</option>
+	<option value = "서초구">서초구</option>
+	<option value = "성동구">성동구</option>
+	<option value = "성북구">성북구</option>
+	<option value = "신사동">신사동</option>
+	<option value = "신촌">신촌</option>
+	<option value = "신촌로">신촌로</option>
+	<option value = "양재중앙차로">양재중앙차로</option>
+	<option value = "영등포구">영등포구</option>
+	<option value = "영등포로">영등포로</option>
+	<option value = "용산구">용산구</option>
+	<option value = "은평구">은평구</option>
+	<option value = "종로구">종로구</option>
+	<option value = "중구">중구</option>
+	<option value = "종랑구">중랑구</option>
+	<option value = "청계천">청계천</option>
+	<option value = "청량리">청량리</option>
+	<option value = "태릉">태릉</option>
+  </select>
+</br>
+<label id="txtHint" class = "search"><br>검색 결과가 여기 나옵니다</br></label>
+</form>
+</div>
+
+<div style="background-color: #7BCCB5;">
+
+<form method = "POST" action="http://cspro.sogang.ac.kr/~cse20121576/cgi-bin/compare.php" class = "search">
+  <h4 class = "h2">오늘 가장 맑은 지역</h4>
+  <label id="min">결과</label>
+  <h4 class = "h2">오늘 가장 탁한 지역</h4>
+  <label id="max">결과</label>
+</form>
+
+</div>
+
+<div style="background-color: #4CC552;">
+
+<form class="search">
+<h4 class = "h2"> 지역의  미세먼지 상태를  비교하자 </h4>
+<select name="places" id = "compElement1">
+	<option value = "지역">지역</option>
+	<option value = "강남구">강남구</option>
+	<option value = "강변북로">강변북로</option>
+	<option value = "강북구">강북구</option>
+	<option value = "관악구">관악구</option>
+	<option value = "내부순환로">내부순환로</option>
+	<option value = "도봉구">도봉구</option>
+	<option value = "동대문구">동대문구</option>
+	<option value = "동작구">동작구</option>
+	<option value = "동작대로">동작대로</option>
+	<option value = "마포구">마포구</option>
+	<option value = "서울역">서울역</option>
+	<option value = "서초구">서초구</option>
+	<option value = "성동구">성동구</option>
+	<option value = "성북구">성북구</option>
+	<option value = "신사동">신사동</option>
+	<option value = "신촌">신촌</option>
+	<option value = "신촌로">신촌로</option>
+	<option value = "양재중앙차로">양재중앙차로</option>
+	<option value = "영등포구">영등포구</option>
+	<option value = "영등포로">영등포로</option>
+	<option value = "용산구">용산구</option>
+	<option value = "은평구">은평구</option>
+	<option value = "종로구">종로구</option>
+	<option value = "중구">중구</option>
+	<option value = "종랑구">중랑구</option>
+	<option value = "청계천">청계천</option>
+	<option value = "청량리">청량리</option>
+	<option value = "태릉">태릉</option>
+</select>
+<select name="places" id = "compElement2" onchange="compare('txtHint3')">
+
+	<option value = "지역">지역</option>
+	<option value = "강남구">강남구</option>
+	<option value = "강변북로">강변북로</option>
+	<option value = "강북구">강북구</option>
+	<option value = "관악구">관악구</option>
+	<option value = "내부순환로">내부순환로</option>
+	<option value = "도봉구">도봉구</option>
+	<option value = "동대문구">동대문구</option>
+	<option value = "동작구">동작구</option>
+	<option value = "동작대로">동작대로</option>
+	<option value = "마포구">마포구</option>
+	<option value = "서울역">서울역</option>
+	<option value = "서초구">서초구</option>
+	<option value = "성동구">성동구</option>
+	<option value = "성북구">성북구</option>
+	<option value = "신사동">신사동</option>
+	<option value = "신촌">신촌</option>
+	<option value = "신촌로">신촌로</option>
+	<option value = "양재중앙차로">양재중앙차로</option>
+	<option value = "영등포구">영등포구</option>
+	<option value = "영등포로">영등포로</option>
+	<option value = "용산구">용산구</option>
+	<option value = "은평구">은평구</option>
+	<option value = "종로구">종로구</option>
+	<option value = "중구">중구</option>
+	<option value = "종랑구">중랑구</option>
+	<option value = "청계천">청계천</option>
+	<option value = "청량리">청량리</option>
+	<option value = "태릉">태릉</option>
+  </select>
+<label id="txtHint3" class = "search"><br></br><br></br></label>
+
+</form>
+</div>
+
+
+</body>
+</html>
